@@ -28,6 +28,21 @@
 
 
 3. 如何保持浮层水平垂直居中 
+    .children{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .child{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+    }
 
 4. position 和 display 的取值和各自的意思和用法 
 
