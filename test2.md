@@ -600,7 +600,7 @@ var test1 = createObject('trigkit4',22,'programmer');//第一个实例var test2 
 
 2.直接将属性和方法赋值给 this 对象;
 
-3.没有 renturn 语句。
+3.没有 return 语句。
 
 说说你对闭包的理解
 
