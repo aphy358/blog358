@@ -149,7 +149,6 @@ require/import
 https://www.cnblogs.com/sunshq/p/7922182.html
 
 
-笃定，自信，不示弱
 骨架屏
 js/css 的 cdn 应用（cdn 回源）
 https://www.jianshu.com/p/e7751ecb6f21
@@ -276,3 +275,165 @@ class Promise {
 ●SVG 可以与 JavaScript 技术一起运行
 ●SVG 是开放的标准
 ●SVG 文件是纯粹的 XML
+
+vue / react 列表为什么建议用 key
+不用 key 的话，会尽可能的复用元素，而只是改变文本
+用 key 的话，会删除老节点，新增新节点，这种方式：1、有利于完整地触发组件的生命周期钩子。2、触发过渡。
+
+
+
+Set
+成员唯一、无序且不重复
+[value, value]，键值与键名是一致的（或者说只有键值，没有键名）
+可以遍历，方法有：add、delete、has
+WeakSet
+成员都是对象
+成员都是弱引用，可以被垃圾回收机制回收，可以用来保存DOM节点，不容易造成内存泄漏
+不能遍历，方法有add、delete、has
+Map
+本质上是键值对的集合，类似集合
+可以遍历，方法很多可以跟各种数据格式转换
+WeakMap
+只接受对象作为键名（null除外），不接受其他类型的值作为键名
+键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的
+不能遍历，方法有get、set、has、delete
+
+
+async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再执行函数体内后面的语句。可以理解为，是让出了线程，跳出了 async 函数体。
+await的含义为等待，也就是 async 函数需要等待await后的函数执行完成并且有了返回结果（Promise对象）之后，才能继续执行下面的代码。await通过返回一个Promise对象来实现同步的效果。
+
+ES5/ES6 的继承除了写法以外还有什么区别？
+1、class 声明会提升，但不会初始化赋值。Foo 进入暂时性死区，类似于 let、const 声明变量。
+2、class 声明内部会启用严格模式。
+3、class 的所有方法（包括静态方法和实例方法）都是不可枚举的。
+4、class 的所有方法（包括静态方法和实例方法）都没有原型对象 prototype，所以也没有[[construct]]，不能使用 new 来调用。
+5、必须使用 new 调用 class。
+6、class 内部无法重写类名。
+
+JS 异步解决方案的发展历程以及优缺点。
+1. 回调函数（setTimeout callback）缺点：回调地狱，不能用 try catch 捕获错误，不能 return  优点：解决了同步的问题
+2. Promise 优点：解决了回调地狱的问题 缺点：无法取消 Promise ，错误需要通过回调函数来捕获
+3. Generator 特点：可以控制函数的执行，可以配合 co 函数库使用 
+4. Async/await async、await 是异步的终极解决方案 优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题 缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。
+
+如何实现一个 new?
+function _new(fn, ...arg) {
+    const obj = Object.create(fn.prototype);
+    const ret = fn.apply(obj, arg);
+	// 根据规范，返回 null 和 undefined 不处理，依然返回obj
+    return ret instanceof Object ? ret : obj;
+}
+
+简单讲解一下 http2 的多路复用 ？
+HTTP2采用二进制格式传输，取代了HTTP1.x的文本格式，二进制格式解析更高效。
+多路复用代替了HTTP1.x的序列和阻塞机制，所有的相同域名请求都通过同一个TCP连接并发完成。在HTTP1.x中，并发多个请求需要多个TCP连接，浏览器为了控制资源会有6-8个TCP连接都限制。
+
+介绍下观察者模式和订阅-发布模式的区别，各自适用于什么场景?
+观察者模式中主体和观察者是互相感知的，发布-订阅模式是借助第三方来实现调度的，发布者和订阅者之间互不感知
+都是某个对象(subject, publisher)改变，使依赖于它的多个对象(observers, subscribers)得到通知。
+总的来说，发布-订阅模式适合更复杂的场景。
+在「一对多」的场景下，发布者的某次更新只想通知它的部分订阅者？
+在「多对一」或者「多对多」场景下。
+两者的区别：
+	1.观察者模式中，观察者知道Subject ,两者是相关联的，而发布订阅者只有通过信息代理进行通信
+	2.在发布订阅模式中，组件是松散耦合的。正好和观察者模式相反。
+	3.观察者大部分是同步的，比如事件的触发。Subject就会调用观察者的方法。而发布订阅者大多数是异步的。
+	4.观察者模式需要在单个应用程序地址空间中实现，而发布订阅者更像交叉应用模式。
+
+1、首先token不是防止XSS的，而是为了防止CSRF的；
+2、CSRF攻击的原因是浏览器会自动带上cookie，而浏览器不会自动带上token
+
+在我看来 Virtual DOM 真正的价值从来都不是性能，而是它 
+1) 为函数式的 UI 编程方式打开了大门；
+2) 可以渲染到 DOM 以外的 backend，比如 ReactNative。
+
+web worker 是运行在后台的 JavaScript，独立于其他脚本，不会影响页面的性能。
+
+vuex中为什么把把异步操作封装在action，把同步操作放在mutations？
+这样 devtools 就可以打个 snapshot 存下来，然后就可以随便 time-travel 了。
+
+介绍 HTTPS 握手过程
+第一步，爱丽丝给出协议版本号、一个客户端生成的随机数（Client random），以及客户端支持的加密方法。
+第二步，鲍勃确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。
+第三步，爱丽丝确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给鲍勃。
+第四步，鲍勃使用自己的私钥，获取爱丽丝发来的随机数（即Premaster secret）。
+第五步，爱丽丝和鲍勃根据约定的加密方法，使用前面的三个随机数，生成"对话密钥"（session key），用来加密接下来的整个对话过程。
+
+HTTPS 握手过程中，客户端如何验证证书的合法性
+（1）首先浏览器读取证书中的证书所有者、有效期等信息进行校验，校验证书的网站域名是否与证书颁发的域名一致，校验证书是否在有效期内
+（2）浏览器开始查找操作系统中已内置的受信任的证书发布机构CA，与服务器发来的证书中的颁发者CA比对，用于校验证书是否为合法机构颁发
+（3）如果找不到，浏览器就会报错，说明服务器发来的证书是不可信任的。
+（4）如果找到，那么浏览器就会从操作系统中取出颁发者CA 的公钥(多数浏览器开发商发布
+版本时，会事先在内部植入常用认证机关的公开密钥)，然后对服务器发来的证书里面的签名进行解密
+（5）浏览器使用相同的hash算法计算出服务器发来的证书的hash值，将这个计算的hash值与证书中签名做对比
+（6）对比结果一致，则证明服务器发来的证书合法，没有被冒充
+
+为什么通常在发送数据埋点请求的时候使用的是 1x1 像素的透明 gif 图片
+能够完成整个 HTTP 请求+响应（尽管不需要响应内容）
+触发 GET 请求之后不需要获取和处理数据、服务器也不需要发送数据
+跨域友好
+执行过程无阻塞
+相比 XMLHttpRequest 对象发送 GET 请求，性能上更好
+GIF的最低合法体积最小（最小的BMP文件需要74个字节，PNG需要67个字节，而合法的GIF，只需要43个字节）
+
+介绍下如何实现 token 加密
+需要一个secret（随机数）
+后端利用secret和加密算法(如：HMAC-SHA256)对payload(如账号密码)生成一个字符串(token)，返回前端
+前端每次request在header中带上token
+后端用同样的算法解密
+
+模拟实现一个 Promise.finally
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value  => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => { throw reason })
+  );
+};
+
+ES6 代码转成 ES5 代码的实现思路是什么
+将代码字符串解析成抽象语法树，即所谓的 AST
+对 AST 进行处理，在这个阶段可以对 ES6 代码进行相应转换，即转成 ES5 代码
+根据处理后的 AST 再生成代码字符串
+
+如何解决移动端 Retina 屏 1px 像素问题
+1 伪元素 + transform scaleY(.5)
+2 border-image
+3 background-image
+4 box-shadow
+
+介绍下 webpack 热更新原理，是如何做到在不刷新浏览器的前提下更新页面
+1.当修改了一个或多个文件；
+2.文件系统接收更改并通知webpack；
+3.webpack重新编译构建一个或多个模块，并通知HMR服务器进行更新；
+4.HMR Server 使用webSocket通知HMR runtime 需要更新，HMR运行时通过HTTP请求更新jsonp；
+5.HMR运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新。
+
+Vue 的父组件和子组件生命周期钩子执行顺序是什么
+父组建： beforeCreate -> created -> beforeMount
+子组件： -> beforeCreate -> created -> beforeMount -> mounted
+父组件： -> mounted
+总结：从外到内，再从内到外
+
+let const var
+let 的「创建」过程被提升了，但是初始化没有提升。
+var 的「创建」和「初始化」都被提升了。
+function 的「创建」「初始化」和「赋值」都被提升了。
+
+react-router 里的 <Link> 标签和 <a> 标签有什么区别
+从最终渲染的 DOM 来看，这两者都是链接，都是 <a> 标签，区别是：
+<Link> 是 react-router 里实现路由跳转的链接，一般配合 <Route> 使用，react-router 接管了其默认的链接跳转行为，区别于传统的页面跳转，<Link> 的“跳转”行为只会触发相匹配的 <Route> 对应的页面内容更新，而不会刷新整个页面。
+而 <a> 标签就是普通的超链接了，用于从当前页面跳转到 href 指向的另一个页面（非锚点情况）。
+
+设计并实现 Promise.race()
+const PromiseRace = (iterable)=>{
+    return new Promise((resolve, reject) => {
+      for (const p of iterable) {
+        Promise.resolve(p).then(resolve).catch(reject)
+      }
+    })
+}
+
+
+vue 在 v-for 时给每项元素绑定事件需要用事件代理吗？为什么？ #145
+并没有发现 vue 会自动做事件代理，但是一般给 v-for 绑定事件时，都会让节点指向同一个事件处理程序（第二种情况可以运行，但是 eslint 会警告），一定程度上比每生成一个节点都绑定一个不同的事件处理程序性能好，但是监听器的数量仍不会变，所以使用事件代理会更好一点

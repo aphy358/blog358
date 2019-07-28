@@ -63,22 +63,18 @@
         <li>item</li>
         
         </ul>
+
+        <div id="tttt"></div>
         
         
 
   <script>
 
-var a = {
-    arr: [3,2,1],
-    toString: function(){
-        return this.arr.pop()
-    }
-}
-if(a == 1 && a == 2 && a == 3){
-    debugger
- 	console.log(1);
-}
 
+for (var i = 0; i < 100000; i++) {
+    var dom = document.getElementById('tttt')
+}
+dom.innerHTML = i
 
   </script>
 
