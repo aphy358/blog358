@@ -84,3 +84,47 @@ for (let i = 0; i < 10; i++) {
         })(i)
     }, 100);
 }
+
+
+':123456px;font-size:2px'.replace(/:(\d+)px/g,function(val){
+  return ':' + parseFloat(val.substr(1)) * 2 + 'rem'
+})
+
+";123456px".replace(/;(\d+)(px)/g, `;${$2 + 2}` + 'rem')
+
+':123456px;font-size:2px'.match(/:(\d+)px/g)
+
+
+setTimeout(function(){
+    console.log(1);
+
+    Promise.resolve().then(() => {
+        console.log('Promise1');
+    })
+}, 0)
+
+setTimeout(function(){
+    console.log(2);
+
+    Promise.resolve().then(() => {
+        console.log('Promise2');
+    })
+}, 0)
+
+new Promise(function executor(resolve){
+    console.log(2);
+    resolve()
+    console.log(3);
+}).then(function(){
+    console.log(4);
+
+})
+console.log(5);
+
+for (var i = 0; i< 10; i++){
+    ((i) => {
+        setTimeout(() => {
+            console.log(i);
+        }, 1000)
+    })(i)
+}

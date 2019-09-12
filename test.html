@@ -8,7 +8,7 @@
     <style>
 
         @keyframes o{
-            0%{
+            /* 0%{
                 transform: translateY(10px);
             }
             50%{
@@ -16,67 +16,39 @@
             }
             100%{
                 transform: translateY(10px);
-            }
+            } */
         }
 
-        #list{
-            position: absolute;
-            animation: o 3s linear infinite 0s;
-        }
-
-        .parent{
+        #divst{
+            background: pink;
             display: flex;
-            height: 100%;
-        }
-        .left{
-            position: relative;
-            width: 200px;
-            height: 100%;
-            background: red;
-            z-index: -1;
         }
 
-        .right{
-            width: 100%;
-            height: 100%;
-            background: blueviolet;
-        }
-
-        iframe{
-            position: absolute;
+        .fl{
+            margin: auto;
         }
     </style>
 </head>
 <body>
 
     
-    <ul id='list'>
+    <div id='divst'>
+        <span class="fl">text</span>
+    </ul>
 
-        <li>item</li>
-        
-        <li>item</li>
-        
-        <li>item</li>
-        
-        <li>item</li>
-        
-        <li>item</li>
-        
-        </ul>
-
-        <div id="tttt"></div>
         
         
 
   <script>
 
+    
 
-for (var i = 0; i < 100000; i++) {
-    var dom = document.getElementById('tttt')
-}
-dom.innerHTML = i
+
+
 
   </script>
+  <!-- <script src="https://cdn.bootcss.com/vue/2.6.10/vue0.js"></script> -->
+  
 
  </body>
 </html>

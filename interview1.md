@@ -13,6 +13,8 @@ Remote  Address    表示远程服务器地址
 Accept        告诉服务器可以接受的文件格式。根据Accept头的不同，按照相应的顺序进行produces的匹配。
 Accept-Encoding  gzip,deflate,sdch,br 指定浏览器可以支持的web服务器返回的内容压缩编码类型
 Accept-Language  浏览器支持的语言
+if-modified-since
+if-none-match
 Cache-Control   指定请求和响应遵循的缓存机制
 Connection     keep-alive 表示是否需要持久连接
 Cookie        HTTP请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器
@@ -25,6 +27,8 @@ Authorization   当客户端访问受口令保护时，服务器端会发送401�
 Content-Length   响应体的长度
 Content-type     返回的响应MIME类型与编码:告诉浏览器它发送的数据属于什么文件类型   
 Cache-control    指定请求和响应遵循的缓存机制
+E-Tag
+Expires
 Date         原始服务器消息发出的时间
 Server        web服务器软件名称
 Last-Modified   标记请求的资源在服务器端最后被修改的时间
@@ -337,11 +341,8 @@ HTTP2采用二进制格式传输，取代了HTTP1.x的文本格式，二进制�
 两者的区别：
 	1.观察者模式中，观察者知道Subject ,两者是相关联的，而发布订阅者只有通过信息代理进行通信
 	2.在发布订阅模式中，组件是松散耦合的。正好和观察者模式相反。
-	3.观察者大部分是同步的，比如事件的触发。Subject就会调用观察者的方法。而发布订阅者大多数是异步的。
+	3.观察者大部分是同步的，比如事件的触发。Subject 就会调用观察者的方法。而发布订阅者大多数是异步的。
 	4.观察者模式需要在单个应用程序地址空间中实现，而发布订阅者更像交叉应用模式。
-
-1、首先token不是防止XSS的，而是为了防止CSRF的；
-2、CSRF攻击的原因是浏览器会自动带上cookie，而浏览器不会自动带上token
 
 在我看来 Virtual DOM 真正的价值从来都不是性能，而是它 
 1) 为函数式的 UI 编程方式打开了大门；
@@ -437,3 +438,60 @@ const PromiseRace = (iterable)=>{
 
 vue 在 v-for 时给每项元素绑定事件需要用事件代理吗？为什么？ #145
 并没有发现 vue 会自动做事件代理，但是一般给 v-for 绑定事件时，都会让节点指向同一个事件处理程序（第二种情况可以运行，但是 eslint 会警告），一定程度上比每生成一个节点都绑定一个不同的事件处理程序性能好，但是监听器的数量仍不会变，所以使用事件代理会更好一点
+
+
+ES6: let/const、Promise、箭头函数、数组解构、对象解构、import/export、Symbol、Class、async函数、for...of、参数默认值
+TypeScript: 接口、继承、多态、模块、命名空间、声明文件、范型
+node: Buffer、cluster、fs、stream、child_process、worker_threads
+
+React的diff算法:
+作用: 计算出Virtual DOM中真正变化的部分，并只针对该部分进行原生DOM操作，而非重新渲染整个页面。
+React用 三大策略 将O(n^3)复杂度 转化为 O(n)复杂度
+策略一（tree diff）：Web UI中DOM节点跨层级的移动操作特别少，可以忽略不计。
+策略二（component diff）：拥有相同类的两个组件 生成相似的树形结构，拥有不同类的两个组件 生成不同的树形结构。
+策略三（element diff）：对于同一层级的一组子节点，通过唯一id区分。
+
+tree diff
+（1）React通过updateDepth对Virtual DOM树进行层级控制。
+（2）对树分层比较，两棵树 只对同一层次节点 进行比较。如果该节点不存在时，则该节点及其子节点会被完全删除，不会再进一步比较。
+（3）只需遍历一次，就能完成整棵DOM树的比较。
+那么问题来了，如果DOM节点出现了跨层级操作,diff会咋办呢？
+答：diff只简单考虑同层级的节点位置变换，如果是跨层级的话，只有创建节点和删除节点的操作。
+
+
+使用transform后，页面的回流直接没有了，这就是使用transform性能更好的原因，如果我们使用定时器频繁改变 top 的时候，效果就会十分明显，其实在 css 类似的属性还有很多，这里只是以 transform 作为切入点进行讲解，其他优化的策略还有：
+- opacity替代visibility ；
+- 多个DOM统一操作（虽然 V8 会有缓存优化）；
+- 先将DOM离线，即 display：none；修改后显示；
+- 不要把DOM放在已有循环中作为循环变量；
+- 不要使用table；
+
+
+redux:
+createStore.js
+combineReducers.js
+compose.js
+applyMiddleware.js
+bindActionCreators.js
+
+
+vuex:
+Store
+installModule: 为module加上namespace名字空间（如果有）后，注册mutation、action以及getter，同时递归安装所有子module。
+resetStoreVM: 
+dispatch
+watch
+registerModule
+unregisterModule
+
+
+移动端优化：
+减小入口文件大小
+组件异步加载
+对于加载较慢的模块使用占位元素填充
+touch 代替 click
+服务端开启 gzip 压缩，前端 js/css 压缩，图片压缩
+减少 http 请求，比如雪碧图的应用，js/css 的合并等
+合理利用缓存：服务端设置 etag/last-modified cache-concrol，cdn
+
+cookie 和 token 都存放在 header 中，为什么不会劫持 token？
